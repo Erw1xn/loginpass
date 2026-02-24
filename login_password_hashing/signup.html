@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>signup</title>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top left, #2e1a47, #1a1a2e, #2e3a59);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .signup-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .input-group ion-icon {
+      font-size: 18px;
+      margin-right: 10px;
+      color: #fff;
+    }
+
+    .input-group input {
+      width: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      padding: 10px 0;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .toggle-password {
+      cursor: pointer;
+      position: absolute;
+      right: 0;
+    }
+
+    /* Validation Message Styling */
+    .validation-message {
+      font-size: 10px;
+      color: #ff512f;
+      margin-top: -15px;
+      margin-bottom: 15px;
+      height: 12px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(to right, #ff512f, #dd2476); 
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    button:hover:not(:disabled) {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .switch-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 12px;
+    }
+    .switch-link a {
+      color: #4facfe;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Fix for chrome autofill */
+    input:-webkit-autofill {
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: #ffffff !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-container">
+    <h2>Create Account</h2>
+    
+    <form id="signup-form" method="POST" action="signup.php">
+      
+      <div class="input-row">
+        <div class="input-group">
+          <ion-icon name="person-outline"></ion-icon>
+          <input type="text" id="first-name" name="first_name" placeholder="First Name" required>
+        </div>
+        <div class="input-group">
+          <input type="text" id="last-name" name="last_name" placeholder="Last Name" required>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="mail-outline"></ion-icon>
+        <input type="email" id="signup-email" name="email" placeholder="Email Address" required>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <input type="password" id="signup-password" name="password" placeholder="Password" maxlength="20" required>
+        <span class="toggle-password" data-target="signup-password">
+          <ion-icon name="eye-off-outline"></ion-icon>
+        </span>
+      </div>
+      <div id="password-validation" class="validation-message"></div>
+
+      <div class="input-group">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm Password" maxlength="20" required>
+        <span class="toggle-password" data-target="confirm-password">
+          <ion-icon name="eye-off-outline"></ion-icon>
+        </span>
+      </div>
+      <div id="confirm-validation" class="validation-message"></div>
+
+      <button type="submit" id="submit-btn" disabled>Sign Up</button>
+
+      <div class="switch-link">
+        Already have an account? <a href="login.html">Log In</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Handle Eye Toggle
+    document.querySelectorAll('.toggle-password').forEach(el => {
+      el.addEventListener('click', () => {
+        const input = document.getElementById(el.dataset.target);
+        const icon = el.querySelector('ion-icon');
+        const isPass = input.type === 'password';
+        input.type = isPass ? 'text' : 'password';
+        icon.setAttribute('name', isPass ? 'eye-outline' : 'eye-off-outline');
+      });
+    });
+
+    const signupForm = document.getElementById('signup-form');
+    const signupPassword = document.getElementById('signup-password');
+    const confirmPassword = document.getElementById('confirm-password');
+    const passwordValidation = document.getElementById('password-validation');
+    const confirmValidation = document.getElementById('confirm-validation');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function validatePasswordComplexity(password) {
+      return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
+    }
+
+    function validateForm() {
+      const password = signupPassword.value;
+      const confirm = confirmPassword.value;
+
+      // Password complexity display
+      if (password && !validatePasswordComplexity(password)) {
+        passwordValidation.textContent = 'Min 8 chars: Upper, Lower, Num, & Special.';
+      } else {
+        passwordValidation.textContent = '';
+      }
+
+      // Match display
+      if (confirm && password !== confirm) {
+        confirmValidation.textContent = 'Passwords do not match.';
+      } else {
+        confirmValidation.textContent = '';
+      }
+
+      // Enable/Disable Button
+      submitBtn.disabled = !validatePasswordComplexity(password) || password !== confirm;
+    }
+
+    signupPassword.addEventListener('input', validateForm);
+    confirmPassword.addEventListener('input', validateForm);
+  </script>
+</body>
+</html>

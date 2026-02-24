@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>login page</title>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      /* Deep gradient background to match the image */
+      background: radial-gradient(circle at top left, #2e1a47, #1a1a2e, #2e3a59);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .login-container {
+      /* Glassmorphism Effect */
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 40px 30px;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    /* Profile Icon */
+    .profile-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 30px;
+    }
+    .profile-icon ion-icon {
+      font-size: 50px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+    }
+
+    .input-group ion-icon {
+      font-size: 18px;
+      margin-right: 10px;
+      color: #fff;
+    }
+
+    .input-group input {
+      width: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      padding: 10px 0;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Toggle Password Icon Positioning */
+    .toggle-password {
+      cursor: pointer;
+      position: absolute;
+      right: 0;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 30px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .options a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-style: italic;
+    }
+
+    .options input {
+      margin-right: 5px;
+      accent-color: #4facfe;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(to right, #ff512f, #dd2476); 
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .switch-link {
+      margin-top: 20px;
+      font-size: 12px;
+    }
+    .switch-link a {
+      color: #4facfe;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active {
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: #ffffff !important;
+      transition: background-color 5000s ease-in-out 0s;
+      box-shadow: inset 0 0 20px 20px rgba(255, 255, 255, 0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="profile-icon">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
+
+    <form id="login-form" method="POST" action="login.php">
+      <div class="input-group">
+        <ion-icon name="mail-outline"></ion-icon>
+        <input type="email" id="login-email" name="email" placeholder="Email ID" required>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <input type="password" id="login-password" name="password" placeholder="Password" required>
+        <span class="toggle-password" data-target="login-password">
+          <ion-icon name="eye-off-outline"></ion-icon>
+        </span>
+      </div>
+
+      <div class="options">
+        <label><input type="checkbox" name="remember-me"> Remember me</label>
+        <a href="forgot-pass.html">Forgot Password?</a>
+      </div>
+
+      <button type="submit">Login</button>
+
+      <div class="switch-link">
+        Don’t have an account? <a href="signup.html">Sign Up</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.querySelectorAll('.toggle-password').forEach(element => {
+      element.addEventListener('click', () => {
+        const targetId = element.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        const eyeIcon = element.querySelector('ion-icon');
+        const isPassword = input.type === 'password';
+        
+        input.type = isPassword ? 'text' : 'password';
+        eyeIcon.setAttribute('name', isPassword ? 'eye-outline' : 'eye-off-outline');
+      });
+    });
+  </script>
+</body>
+</html>
